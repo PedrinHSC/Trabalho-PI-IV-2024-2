@@ -1,0 +1,79 @@
+.principal {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding-top: 100px;
+    background-color: rgb(240, 240, 240);
+    height: 100vh;
+}
+
+.formulario {
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #2c3e50;
+    width: 300px;
+    height: 375px;
+}
+
+.password-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-container input {
+    width: 100%;
+}
+
+.eye-btn {
+    position: absolute;
+    right: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    color: gray;
+}
+
+.eye-btn:focus {
+    outline: none;
+}
+
+.imagem {
+    width: 152px;
+    margin-bottom: 38px;
+}
+
+.titulo {
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+
+    & button {
+        border-radius: 30px;
+        background-color: white;
+        height: 40px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    & input {
+        border: none;
+        height: 30px;
+        border-radius: 10px;
+        padding-left: 10px;
+
+    }
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
