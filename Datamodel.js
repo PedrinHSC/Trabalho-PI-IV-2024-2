@@ -4,7 +4,8 @@ const dataSchema = new mongoose.Schema({
     nome: String,
     senha: String,
     tipo: String,
-    situacao: String
+    situacao: String,
+    turma: Number
 })
 
 const Usuario = mongoose.model("Usuario", dataSchema);

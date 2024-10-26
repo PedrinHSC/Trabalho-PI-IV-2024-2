@@ -1,8 +1,5 @@
 import express from 'express';
-import path from 'path';
-import mongoose from 'mongoose';
 import cors from 'cors';
-
 import dataModel from './Datamodel.js';
 import conectarBanco from './Database.js';
 
@@ -19,6 +16,8 @@ app.get('/usuarios', async (req, res) => {
 
 app.post('/usuarios', async (req, res) => {
     try {
+        console.log('req.body', req.body);
+
         // Dados recebidos do cliente
         const novoUsuario = new dataModel(req.body);
         console.log('novoUsuario', novoUsuario)

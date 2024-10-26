@@ -6,25 +6,72 @@ import { useEffect, useState } from 'react'
 import Inicio from './componentes/inicio/inicio'
 import Materias from './componentes/materias/materias'
 import Cadastro from './componentes/cadastro/cadastro'
+import logoPrefeituraVixHoriz from '../../assets/imagens/logoPrefeituraVixHoriz.png'
+
+interface Usuario {
+    nome: string;
+    turma: string;
+    tipo: string;
+}
 
 const TelaInicial: React.FC = () => {
     const navegacao = useNavigate()
     const location = useLocation();
     const [conteudo, setConteudo] = useState('inicio');
     const [itemSelecionado, setItemSelecionado] = useState('inicio');
+    const [usuario, setUsuario] = useState<Usuario | null>(null);
+    const [arrayItemMenu, setArrayItemMenu] = useState<{ nome: string, path: string }[]>([]);
 
     useEffect(() => {
+        const usuarioSalvo = localStorage.getItem('usuarioLogado');
+        if (usuarioSalvo) {
+            setUsuario(JSON.parse(usuarioSalvo));
+
+            if (usuario?.tipo === 'Desenvolvedor') {
+                setArrayItemMenu([
+                    { nome: 'Início', path: 'inicio' },
+                    { nome: 'Calendário', path: 'calendario' },
+                    { nome: 'Matérias', path: 'materias' },
+                    { nome: 'Eventos', path: 'eventos' },
+                    { nome: 'Contato', path: 'contato' },
+                    { nome: 'Novidades', path: 'novidades' },
+                    { nome: 'Cadastro', path: 'cadastro' },
+                ]);
+            } else {
+                setArrayItemMenu([
+                    { nome: 'Início', path: 'inicio' },
+                    { nome: 'Calendário', path: 'calendario' },
+                    { nome: 'Matérias', path: 'materias' },
+                    { nome: 'Eventos', path: 'eventos' },
+                    { nome: 'Contato', path: 'contato' },
+                    { nome: 'Novidades', path: 'novidades' },
+                ]);
+            }
+        }
         const path = location.pathname.replace('/', '');
         setConteudo(path || 'inicio');
     }, [location]);
 
     const sair = () => {
+        localStorage.removeItem('usuarioLogado');
         navegacao('/')
     }
 
     const atualizaUrl = (rota: string) => {
         setItemSelecionado(rota);
         (rota == 'inicio') ? navegacao(`/${rota}`) : navegacao(`/inicio/${rota}`)
+    }
+
+    const getTipo = () => {
+        const tipo = usuario?.tipo
+        let cabecTipo = '';
+
+        if (tipo) {
+            if (tipo == 'Aluno') cabecTipo = 'Aluno / Turma'
+            if (tipo == 'Professor') cabecTipo = 'Professor'
+            if (tipo == 'Desenvolvedor') cabecTipo = 'Desenvolvedor'
+        }
+        return cabecTipo
     }
 
     const renderizarConteudo = () => {
@@ -50,19 +97,19 @@ const TelaInicial: React.FC = () => {
         <div style={{ display: 'flex' }}>
             <div className='sidebar'>
                 <div className="imag">
-                    <img src="http://sescon-es.org.br/wordpress/wp-content/uploads/2021/10/a898ad4f0c9a44098ef24a4428358fd0.png" alt="" />
+                    <img src={logoPrefeituraVixHoriz} alt="" />
                 </div>
 
                 <div className='opcoes'>
                     <nav>
                         <ul>
-                            {['inicio', 'calendario', 'materias', 'eventos', 'contato', 'novidades', 'cadastro'].map((item) => (
+                            {arrayItemMenu.map((item) => (
                                 <li
-                                    key={item}
-                                    className={itemSelecionado === item ? 'selected' : ''}
-                                    onClick={() => atualizaUrl(item)}
+                                    key={item.path}
+                                    className={itemSelecionado == item.path ? 'selected' : ''}
+                                    onClick={() => atualizaUrl(item.path)}
                                 >
-                                    {item.charAt(0).toUpperCase() + item.slice(1)}
+                                    {item.nome.charAt(0).toUpperCase() + item.nome.slice(1)}
                                 </li>
                             ))}
                         </ul>
@@ -73,8 +120,8 @@ const TelaInicial: React.FC = () => {
             <div className='areaVisual'>
                 <div className='header'>
                     <div>
-                        <div><strong> Aluno / Turma</strong></div>
-                        <div>Pedro Henrique Sossai Camata / 2° A</div>
+                        <div><strong> {getTipo()}</strong></div>
+                        <div>{!usuario?.turma ? `${usuario?.nome}` : `${usuario?.nome} / ${usuario?.turma}° ano`}</div>
                     </div>
 
                     <div>

@@ -23,7 +23,7 @@ function EditToolbar(props: EditToolbarProps) {
     const id = randomId();
     setRows((oldRows) => [
       ...oldRows,
-      { id, matricula: '', nome: '', senha: '', tipo: '', situacao: '', isNew: true },
+      { id, matricula: '', nome: '', turma: '', senha: '', tipo: '', situacao: '', isNew: true },
     ]);
     setRowModesModel((oldModel) => ({
       ...oldModel,
@@ -53,9 +53,6 @@ const Cadastro: React.FC = () => {
         const response = await fetch('http://localhost:5000/usuarios');
         if (response.ok) {
           const data = await response.json();
-          console.log('data', data.usuarios);
-
-          // Supondo que os dados retornados sejam um array de objetos compatível com as colunas definidas
           setRows(Array.isArray(data.usuarios) ? data.usuarios : [])
         } else {
           console.error('Erro ao buscar os dados:', response.statusText);
@@ -101,9 +98,10 @@ const Cadastro: React.FC = () => {
   const processRowUpdate = async (newRow: GridRowModel) => {
     const updatedRow = { ...newRow, isNew: false };
     setRows((prevRows) => prevRows.map((row) => (row._id === newRow._id ? updatedRow : row)));
+
     if (updatedRow) {
       // Verifique se todos os campos obrigatórios foram preenchidos
-      if (!newRow.matricula || !newRow.nome || !newRow.senha || !newRow.tipo || !newRow.situacao) {
+      if (!newRow.matricula || !newRow.turma || !newRow.nome || !newRow.senha || !newRow.tipo || !newRow.situacao) {
         console.error('Preencha todos os campos obrigatórios antes de salvar.');
         alert('Preencha todos os campos antes de salvar.');
         return;
@@ -145,6 +143,15 @@ const Cadastro: React.FC = () => {
       headerName: 'Nome',
       type: 'string',
       width: 250,
+      align: 'left',
+      headerAlign: 'left',
+      editable: true,
+    },
+    {
+      field: 'turma',
+      headerName: 'Turma',
+      type: 'number',
+      width: 100,
       align: 'left',
       headerAlign: 'left',
       editable: true,

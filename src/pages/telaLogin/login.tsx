@@ -3,12 +3,21 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import logoPrefeituraVert from '../../assets/imagens/logoPrefeituraVixVert.png';
 
+interface Usuario {
+  nome: string;
+  matricula: string;
+  senha: string;
+  situacao: string;
+  turma: string;
+  tipo: string;
+}
 const Login: React.FC = () => {
   const [mostrarSenha, setMostrarSenha] = useState(false);
   const [matricula, setMatricula] = useState("");
   const [senha, setSenha] = useState("");
-  const [usuarios, setUsuarios] = useState([]);
+  const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const navegacao = useNavigate()
   const matriculaTeste = '00001'
   const senhaTeste = '12345'
@@ -39,10 +48,21 @@ const Login: React.FC = () => {
     );
 
     if (usuarioEncontrado || (matricula == matriculaTeste && senha == senhaTeste)) {
+
+      const usuarioSalvar = {
+        nome: usuarioEncontrado?.nome,
+        matricula: usuarioEncontrado?.matricula,
+        turma: usuarioEncontrado?.turma,
+        tipo: usuarioEncontrado?.tipo
+      };
+
+      const temLocalStorage = localStorage.getItem('usuarioLogado')
+      if (temLocalStorage) localStorage.removeItem('usuarioLogado');
+
+      localStorage.setItem('usuarioLogado', JSON.stringify(usuarioSalvar));
       navegacao('/inicio');
     } else {
       alert('Senha ou matricula invalidas')
-
     }
   }
 
@@ -52,7 +72,7 @@ const Login: React.FC = () => {
       <div className='formulario'>
 
         <div className='titulo'>
-          <img className='imagem' src="https://melhores.com/resources/prefeitura-digital/2024/prefeitura-de-vitoria/prefeitura-de-vitoria-logo.webp?w=366" alt="" />
+          <img className='imagem' src={logoPrefeituraVert} alt="Logo Prefeitura de Vitória" />
         </div>
 
         <form onSubmit={enviarFormulario}>
