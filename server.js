@@ -16,16 +16,8 @@ app.get('/usuarios', async (req, res) => {
 
 app.post('/usuarios', async (req, res) => {
     try {
-        console.log('req.body', req.body);
-
-        // Dados recebidos do cliente
         const novoUsuario = new dataModel(req.body);
-        console.log('novoUsuario', novoUsuario)
-
-        // Salvar no banco de dados
         const response = await novoUsuario.save();
-
-        // Retornar a resposta ao cliente
         return res.status(201).json({ usuario: response });
     } catch (error) {
         return res.status(500).json({ error: 'Erro ao salvar o usuário' });

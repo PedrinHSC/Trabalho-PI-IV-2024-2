@@ -8,6 +8,7 @@ import imagCien from '../../../../assets/imagens/fundoCien.jpg'
 import imagFis from '../../../../assets/imagens/fundoFis.jpg'
 import imagBio from '../../../../assets/imagens/fundoBio.jpg'
 import imagQuim from '../../../../assets/imagens/fundoQuim.jpg'
+import imagIng from '../../../../assets/imagens/fundoIng.jpg'
 import { useNavigate } from 'react-router-dom'
 const Materias: React.FC = () => {
     const navigate = useNavigate();
@@ -21,6 +22,7 @@ const Materias: React.FC = () => {
         { materia: 'História', imagem: imagHis, path: `/${turma}/historia` },
         { materia: 'Geografia', imagem: imagGeo, path: `/${turma}/geografia` },
         { materia: 'Ciências', imagem: imagCien, path: `/${turma}/ciencias` },
+        { materia: 'Inglês', imagem: imagIng, path: `/${turma}/ingles` },
     ] : turma >= 1 && turma <= 3 ? [
         { materia: 'Português', imagem: imagPort, path: `/${turma}/portugues` },
         { materia: 'Matemática', imagem: imagMat, path: `/${turma}/matematica` },
@@ -29,6 +31,7 @@ const Materias: React.FC = () => {
         { materia: 'Física', imagem: imagFis, path: `/${turma}/fisica` },
         { materia: 'Biologia', imagem: imagBio, path: `/${turma}/biologia` },
         { materia: 'Química', imagem: imagQuim, path: `/${turma}/quimica` },
+        { materia: 'Inglês', imagem: imagIng, path: `/${turma}/ingles` }
     ] : [
         { materia: 'Português', imagem: imagPort, path: `/${turma}/portugues` },
         { materia: 'Matemática', imagem: imagMat, path: `/${turma}/matematica` },
@@ -36,7 +39,8 @@ const Materias: React.FC = () => {
         { materia: 'Geografia', imagem: imagGeo, path: `/${turma}/geografia` },
         { materia: 'Física', imagem: imagFis, path: `/${turma}/fisica` },
         { materia: 'Biologia', imagem: imagBio, path: `/${turma}/biologia` },
-        { materia: 'Química', imagem: imagQuim, path: `/${turma}/quimica` }
+        { materia: 'Química', imagem: imagQuim, path: `/${turma}/quimica` },
+        { materia: 'Inglês', imagem: imagIng, path: `/${turma}/ingles` }
     ];
 
     const handleCardClick = (path: string) => {

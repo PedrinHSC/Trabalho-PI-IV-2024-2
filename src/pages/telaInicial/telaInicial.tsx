@@ -26,31 +26,39 @@ const TelaInicial: React.FC = () => {
         const usuarioSalvo = localStorage.getItem('usuarioLogado');
         if (usuarioSalvo) {
             setUsuario(JSON.parse(usuarioSalvo));
-
-            if (usuario?.tipo === 'Desenvolvedor') {
-                setArrayItemMenu([
-                    { nome: 'Início', path: 'inicio' },
-                    { nome: 'Calendário', path: 'calendario' },
-                    { nome: 'Matérias', path: 'materias' },
-                    { nome: 'Eventos', path: 'eventos' },
-                    { nome: 'Contato', path: 'contato' },
-                    { nome: 'Novidades', path: 'novidades' },
-                    { nome: 'Cadastro', path: 'cadastro' },
-                ]);
-            } else {
-                setArrayItemMenu([
-                    { nome: 'Início', path: 'inicio' },
-                    { nome: 'Calendário', path: 'calendario' },
-                    { nome: 'Matérias', path: 'materias' },
-                    { nome: 'Eventos', path: 'eventos' },
-                    { nome: 'Contato', path: 'contato' },
-                    { nome: 'Novidades', path: 'novidades' },
-                ]);
-            }
         }
+    }, []);
+
+    useEffect(() => {
+        if (usuario?.tipo === 'Desenvolvedor') {
+            setArrayItemMenu([
+                { nome: 'Início', path: 'inicio' },
+                { nome: 'Calendário', path: 'inicio/calendario' },
+                { nome: 'Matérias', path: 'inicio/materias' },
+                { nome: 'Eventos', path: 'inicio/eventos' },
+                { nome: 'Novidades', path: 'inicio/novidades' },
+                { nome: 'Contato', path: 'inicio/contato' },
+                { nome: 'Cadastro', path: 'inicio/cadastro' },
+            ]);
+        } else {
+            setArrayItemMenu([
+                { nome: 'Início', path: 'inicio' },
+                { nome: 'Calendário', path: 'inicio/calendario' },
+                { nome: 'Matérias', path: 'inicio/materias' },
+                { nome: 'Eventos', path: 'inicio/eventos' },
+                { nome: 'Novidades', path: 'inicio/novidades' },
+                { nome: 'Contato', path: 'inicio/contato' },
+            ]);
+        }
+    }, [usuario]);
+
+
+    useEffect(() => {
         const path = location.pathname.replace('/', '');
-        setConteudo(path || 'inicio');
+        setConteudo(path);
+        setItemSelecionado(path);
     }, [location]);
+
 
     const sair = () => {
         localStorage.removeItem('usuarioLogado');
@@ -59,7 +67,7 @@ const TelaInicial: React.FC = () => {
 
     const atualizaUrl = (rota: string) => {
         setItemSelecionado(rota);
-        (rota == 'inicio') ? navegacao(`/${rota}`) : navegacao(`/inicio/${rota}`)
+        navegacao(`/${rota}`)
     }
 
     const getTipo = () => {
@@ -76,6 +84,7 @@ const TelaInicial: React.FC = () => {
 
     const renderizarConteudo = () => {
         switch (conteudo) {
+
             case 'inicio':
                 return <Inicio />;
             case 'inicio/calendario':

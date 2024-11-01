@@ -6,28 +6,29 @@ import logoPrefeituraVixHoriz from '../../../../../assets/imagens/logoPrefeitura
 import './detalheMateria.css';
 
 const DetalhesMateria: React.FC = () => {
-    const { materia } = useParams<{ materia: string }>();
+    const { materia, turma } = useParams<{ materia: string, turma: string }>();
     const navegacao = useNavigate();
     const location = useLocation();
-    const [itemSelecionado, setItemSelecionado] = useState<string>('conteudo');
+    const [conteudo, setConteudo] = useState(`${turma}/${materia}/conteudo`);
+    const [itemSelecionado, setItemSelecionado] = useState<string>(`${turma}/${materia}/conteudo`);
     const [arrayItemMenu, setArrayItemMenu] = useState<{ nome: string, path: string }[]>([]);
 
     useEffect(() => {
-        console.log('materia', materia);
-
         setArrayItemMenu([
-            { nome: 'Conteúdo', path: 'conteudo' },
-            { nome: 'Atividade', path: 'atividade' },
-            { nome: 'Reforço', path: 'reforco' },
-            { nome: 'Notas', path: 'notas' }
+            { nome: 'Conteúdo', path: `${turma}/${materia}/conteudo` },
+            { nome: 'Atividade', path: `${turma}/${materia}/atividade` },
+            { nome: 'Reforço', path: `${turma}/${materia}/reforco` },
+            { nome: 'Notas', path: `${turma}/${materia}/notas` }
         ]);
-        // Extrair a última parte do caminho e definir como o item selecionado
-        const path = location.pathname.replace('/', '');
-        setItemSelecionado(path || 'conteudo');
-        console.log('path', path);
 
+        if (location.pathname === `/${turma}/${materia}`) {
+            navegacao(`/${turma}/${materia}/conteudo`, { replace: true });
+        } else {
+            setConteudo(location.pathname.replace('/', ''));
+            setItemSelecionado(location.pathname.replace('/', ''));
+        }
 
-    }, [location]);
+    }, [location, turma, materia]);
 
     const voltar = () => {
         navegacao('/inicio/materias');
@@ -38,18 +39,39 @@ const DetalhesMateria: React.FC = () => {
         navegacao(`/${rota}`);
     };
 
+    const getTitulo = () => {
+        switch (materia) {
+            case 'matematica':
+                return 'Matemática'
+            case 'portugues':
+                return 'Português'
+            case 'ciencias':
+                return 'Ciências'
+            case 'historia':
+                return 'História'
+            case 'geografia':
+                return 'Geografia'
+            case 'fisica':
+                return 'Física'
+            case 'quimica':
+                return 'Química'
+            case 'biologia':
+                return 'Biologia'
+            case 'ingles':
+                return 'Inglês'
+        }
+    }
+
     const renderizarConteudo = () => {
-        switch (itemSelecionado) {
-            case 'conteudo':
+        switch (conteudo) {
+            case `${turma}/${materia}/conteudo`:
                 return <div>Conteúdo da página Conteúdo</div>;
-            case 'atividade':
+            case `${turma}/${materia}/atividade`:
                 return <div>Conteúdo da página Atividade</div>;
-            case 'reforco':
+            case `${turma}/${materia}/reforco`:
                 return <div>Conteúdo da página Reforço</div>;
-            case 'notas':
+            case `${turma}/${materia}/notas`:
                 return <div>Conteúdo da página Notas</div>;
-            default:
-                return <div>Conteúdo não encontrado</div>;
         }
     };
 
@@ -86,7 +108,7 @@ const DetalhesMateria: React.FC = () => {
                     </div>
                     <div>
                         <div style={{ fontSize: '30px' }}>
-                            <strong>{materia}</strong>
+                            <strong>{getTitulo()}</strong>
                         </div>
                     </div>
                 </div>
