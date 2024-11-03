@@ -1,22 +1,128 @@
-.card {
-    height: 159px;
-    padding: 10px;
-    background-color: #ffffff;
-    text-align: center;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: center;
 }
 
-.container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    padding: 20px;
+.card {
+    width: 250px; /* Tamanho dos cards */
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.card-header {
+    background-color: greenyellow;
+    padding: 10px; /* Adiciona espaçamento ao fundo */
+    border-radius: 10px 10px 0 0; /* Apenas arredondar o topo */
+}
+
+.card-body {
+    padding: 10px; /* Adiciona espaçamento ao corpo do card */
+}
+
+.card:hover {
+    transform: scale(1.05);
 }
 
 .areaNomeMateria {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 60%;
+    font-size: 1.2em;
+}
+
+button {
+    margin: 8px;
+    padding: 10px 20px;
+    font-size: 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.chatgpt-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    z-index: 1000;
+    width: 90%;
+    max-width: 600px; /* Aumenta o tamanho máximo da modal */
+}
+
+.chatgpt-modal h3 {
+    margin: 0;
+    padding-bottom: 10px;
+    font-size: 1.4em;
+}
+
+textarea {
+    width: 100%;
+    height: 100px;
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    resize: none;
+}
+
+.chat-area {
+    max-height: 300px; /* Altura máxima para a área do chat */
+    overflow-y: auto; /* Adiciona rolagem vertical */
+    margin: 10px 0; /* Margem entre a área do chat e outros elementos */
+}
+
+.chatgpt-response {
+    margin-top: 15px;
+}
+
+.chatgpt-response p {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #eee;
+    margin: 5px 0; /* Espaçamento entre os parágrafos */
+}
+
+.chatgpt-response ul {
+    list-style-type: disc; /* Define o estilo da lista */
+    padding-left: 20px; /* Espaçamento à esquerda para a lista */
+}
+
+.chatgpt-response li {
+    background-color: #e2f0d9; /* Cor de fundo para os itens da lista */
+    padding: 5px; /* Espaçamento interno dos itens da lista */
+    border-radius: 5px; /* Arredondamento dos itens da lista */
+    margin: 5px 0; /* Espaçamento entre os itens */
+}
+
+/* Estilização adicional para perguntas e respostas */
+.user-question {
+    background-color: #c1e1c1; /* Fundo verde para perguntas */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0; /* Espaçamento entre as perguntas */
+    text-align: right; /* Alinhamento à direita */
+}
+
+.chatgpt-response {
+    background-color: #d1ecf1; /* Fundo azul para respostas */
+    padding: 10px;
+    border-radius: 5px;
+    margin: 5px 0; /* Espaçamento entre as respostas */
 }
