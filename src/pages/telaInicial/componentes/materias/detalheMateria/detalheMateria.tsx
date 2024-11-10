@@ -4,9 +4,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import logoPrefeituraVixHoriz from '../../../../../assets/imagens/logoPrefeituraVixHoriz.png';
 import './detalheMateria.css';
+import Conteudo from '../../conteudo/conteudo';
+import Atividade from '../../atividades/ativiades';
+import Reforco from '../../reforoco/reforco';
+import Notas from '../../notas/notas';
 
 const DetalhesMateria: React.FC = () => {
     const { materia, turma } = useParams<{ materia: string, turma: string }>();
+
+    if (!materia || !turma) {
+        return <div>Parâmetros inválidos</div>;
+    }
+
     const navegacao = useNavigate();
     const location = useLocation();
     const [conteudo, setConteudo] = useState(`${turma}/${materia}/conteudo`);
@@ -28,7 +37,7 @@ const DetalhesMateria: React.FC = () => {
             setItemSelecionado(location.pathname.replace('/', ''));
         }
 
-    }, [location, turma, materia]);
+    }, [location.pathname, turma, materia, navegacao]);
 
     const voltar = () => {
         navegacao('/inicio/materias');
@@ -65,13 +74,13 @@ const DetalhesMateria: React.FC = () => {
     const renderizarConteudo = () => {
         switch (conteudo) {
             case `${turma}/${materia}/conteudo`:
-                return <div>Conteúdo da página Conteúdo</div>;
+                return <Conteudo materia={materia} />;
             case `${turma}/${materia}/atividade`:
-                return <div>Conteúdo da página Atividade</div>;
+                return <Atividade materia={materia} />;
             case `${turma}/${materia}/reforco`:
-                return <div>Conteúdo da página Reforço</div>;
+                return <Reforco materia={materia} />;
             case `${turma}/${materia}/notas`:
-                return <div>Conteúdo da página Notas</div>;
+                return <Notas materia={materia} />;
         }
     };
 
