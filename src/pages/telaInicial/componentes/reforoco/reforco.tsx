@@ -78,14 +78,11 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
         <Container maxWidth="md">
             <Card>
                 <CardContent>
-                    <Typography variant="h4" component="h3" gutterBottom>
-                        Reforço para {materia}
-                    </Typography>
                     <Typography variant="body1" gutterBottom>
-                        Você pode usar o chat para tirar dúvidas específicas.
+                        Utilize o chat para tirar suas dúvidas relacioandas a matéria.
                     </Typography>
 
-                    <Box className='chat-area' sx={{ maxHeight: '400px', overflowY: 'auto', marginBottom: '16px' }}>
+                    <Box className='chat-area' sx={{ maxHeight: '360px', overflowY: 'auto', marginBottom: '10px' }}>
                         {chatResponse.map((msg, index) => (
                             <Box key={index} className={`chat-message ${msg.type}`} sx={{ marginBottom: '8px', textAlign: msg.type === 'user' ? 'right' : 'left' }}>
                                 <Box className="message-content" sx={{ display: 'inline-block', padding: '8px', borderRadius: '8px', backgroundColor: msg.type === 'user' ? '#e0f7fa' : '#f1f1f1' }} dangerouslySetInnerHTML={{ __html: msg.text }} />
@@ -100,7 +97,7 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
                         placeholder={`Digite sua pergunta sobre ${materia}`}
                         disabled={loading}
                         multiline
-                        rows={4}
+                        rows={1}
                         variant="outlined"
                         fullWidth
                         margin="normal"

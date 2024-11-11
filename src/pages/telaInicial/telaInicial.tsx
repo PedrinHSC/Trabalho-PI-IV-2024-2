@@ -35,7 +35,6 @@ const TelaInicial: React.FC = () => {
                 { nome: 'Início', path: 'inicio' },
                 { nome: 'Calendário', path: 'inicio/calendario' },
                 { nome: 'Matérias', path: 'inicio/materias' },
-                { nome: 'Eventos', path: 'inicio/eventos' },
                 { nome: 'Novidades', path: 'inicio/novidades' },
                 { nome: 'Contato', path: 'inicio/contato' },
                 { nome: 'Cadastro', path: 'inicio/cadastro' },
@@ -45,7 +44,6 @@ const TelaInicial: React.FC = () => {
                 { nome: 'Início', path: 'inicio' },
                 { nome: 'Calendário', path: 'inicio/calendario' },
                 { nome: 'Matérias', path: 'inicio/materias' },
-                { nome: 'Eventos', path: 'inicio/eventos' },
                 { nome: 'Novidades', path: 'inicio/novidades' },
                 { nome: 'Contato', path: 'inicio/contato' },
             ]);
@@ -91,8 +89,6 @@ const TelaInicial: React.FC = () => {
                 return <div>Conteúdo da página Calendário</div>;
             case 'inicio/materias':
                 return <Materias />;
-            case 'inicio/eventos':
-                return <div>Conteúdo da página Eventos</div>;
             case 'inicio/contato':
                 return <div>Conteúdo da página Contato</div>;
             case 'inicio/novidades':

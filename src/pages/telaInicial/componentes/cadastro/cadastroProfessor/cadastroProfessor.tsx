@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState } from 'react';
+import './cadastroProfessor.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import './cadastroAluno.css'
 
-const CadastroAluno: React.FC = () => {
-
-    interface Aluno {
+const CadastroProfessor: React.FC = () => {
+    interface Professor {
         matricula: number;
         nome: string;
         senha: string;
+        materia: string;
         turma: number;
         tipo: string;
         situacao: string;
     }
 
     const [showPopup, setShowPopup] = useState(false);
-    const [alunos, setAlunos] = useState<Aluno[]>([]);
+    const [professores, setProfessores] = useState<Professor[]>([]);
     const [matricula, setMatricula] = useState<number | undefined>(undefined);
     const [nome, setNome] = useState('');
     const [senha, setSenha] = useState('');
-    const [turma, setTurma] = useState<number | undefined>(undefined);
-    const [tipo] = useState('Aluno');
+    const [materia, setMateria] = useState('');
+    const [turma, setTurmas] = useState<number | undefined>(undefined);
+    const [tipo] = useState('Professor');
     const [situacao, setSituacao] = useState('');
     const [editingIndex, setEditingIndex] = useState<number | null>(null);
-    const [usuarios, setUsuarios] = useState<Aluno[]>([]);
+    const [usuarios, setUsuarios] = useState<Professor[]>([]);
     const [showPassword, setShowPassword] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [mensagem, setMensagem] = useState('');
@@ -31,7 +32,6 @@ const CadastroAluno: React.FC = () => {
 
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(9); // Defina o número de registros por página
-
 
     useEffect(() => {
         fetchUsuarios();
@@ -53,11 +53,11 @@ const CadastroAluno: React.FC = () => {
             const response = await fetch('http://localhost:5000/usuarios');
             if (response.ok) {
                 const data = await response.json();
-                const alunos = Array.isArray(data.usuarios)
-                    ? data.usuarios.filter((usuario: Aluno) => usuario.tipo === 'Aluno')
+                const professores = Array.isArray(data.usuarios)
+                    ? data.usuarios.filter((usuario: Professor) => usuario.tipo === 'Professor')
                     : [];
                 setUsuarios(data.usuarios)
-                setAlunos(alunos);
+                setProfessores(professores);
             } else {
                 console.error('Erro ao buscar os dados:', response.statusText);
             }
@@ -66,7 +66,7 @@ const CadastroAluno: React.FC = () => {
         }
     };
 
-    const handleNovoAluno = () => {
+    const handleNovoProfessor = () => {
         const maiorMatricula = usuarios.reduce(
             (max, usuario) => (usuario.matricula > max ? usuario.matricula : max),
             0
@@ -75,13 +75,14 @@ const CadastroAluno: React.FC = () => {
         setShowPopup(true);
     };
 
-    const handleEditarAluno = (index: number) => {
-        const aluno = alunos[index];
-        setMatricula(aluno.matricula);
-        setNome(aluno.nome);
-        setSenha(aluno.senha);
-        setTurma(aluno.turma);
-        setSituacao(aluno.situacao);
+    const handleEditarProfessor = (index: number) => {
+        const professor = professores[index];
+        setMatricula(professor.matricula);
+        setNome(professor.nome);
+        setSenha(professor.senha);
+        setMateria(professor.materia);
+        setTurmas(professor.turma);
+        setSituacao(professor.situacao);
         setEditingIndex(index);
         setShowPopup(true);
     };
@@ -91,23 +92,25 @@ const CadastroAluno: React.FC = () => {
         setMatricula(undefined);
         setNome('');
         setSenha('');
-        setTurma(undefined);
+        setMateria('');
+        setTurmas(undefined);
         setSituacao('');
         setEditingIndex(null);
         setErrorMessage('')
     };
 
-    const handleSalvarAluno = async () => {
+    const handleSalvarProfessor = async () => {
 
-        if (!nome || !senha || !turma || !situacao) {
+        if (!nome || !senha || !materia || !turma || !situacao) {
             setErrorMessage('Por favor, preencha todos os campos.');
             return;
         }
 
-        const novoAluno: Aluno = {
+        const novoProfessor: Professor = {
             matricula: matricula!,
             nome,
             senha,
+            materia,
             turma: turma!,
             tipo,
             situacao,
@@ -116,24 +119,24 @@ const CadastroAluno: React.FC = () => {
         try {
             if (editingIndex !== null) {
                 // Método PUT para atualizar um professor existente
-                const response = await fetch(`http://localhost:5000/usuarios/${novoAluno.matricula}`, {
+                const response = await fetch(`http://localhost:5000/usuarios/${novoProfessor.matricula}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(novoAluno),
+                    body: JSON.stringify(novoProfessor),
                 });
 
                 if (response.ok) {
-                    const updatedAlunos = [...alunos];
-                    updatedAlunos[editingIndex] = novoAluno;
-                    setAlunos(updatedAlunos);
-                    setMensagem('Aluno atualizado com sucesso!');
+                    const updatedProfessores = [...professores];
+                    updatedProfessores[editingIndex] = novoProfessor;
+                    setProfessores(updatedProfessores);
+                    setMensagem('Professor atualizado com sucesso!');
                     setMensagemTipo('sucesso');
                 } else {
-                    setMensagem('Erro ao atualizar o aluno.');
+                    setMensagem('Erro ao atualizar o professor.');
                     setMensagemTipo('erro');
-                    console.error('Erro ao atualizar o aluno:', response.statusText);
+                    console.error('Erro ao atualizar o professor:', response.statusText);
                 }
             } else {
                 // Método POST para adicionar um novo professor
@@ -142,18 +145,18 @@ const CadastroAluno: React.FC = () => {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify(novoAluno),
+                    body: JSON.stringify(novoProfessor),
                 });
 
                 if (response.ok) {
                     fetchUsuarios();
-                    setAlunos([...alunos, novoAluno]);
-                    setMensagem('Aluno registrado com sucesso!');
+                    setProfessores([...professores, novoProfessor]);
+                    setMensagem('Professor registrado com sucesso!');
                     setMensagemTipo('sucesso');
                 } else {
-                    setMensagem('Erro ao registrar o aluno.');
+                    setMensagem('Erro ao registrar o professor.');
                     setMensagemTipo('erro');
-                    console.error('Erro ao adicionar o aluno:', response.statusText);
+                    console.error('Erro ao adicionar o professor:', response.statusText);
                 }
             }
         } catch (error) {
@@ -167,23 +170,24 @@ const CadastroAluno: React.FC = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleExcluirAluno = async (index: number) => {
-        const aluno = alunos[index];
+    const handleExcluirProfessor = async (index: number) => {
+        const professor = professores[index];
 
         try {
-            const response = await fetch(`http://localhost:5000/usuarios/${aluno.matricula}`, {
+            const response = await fetch(`http://localhost:5000/usuarios/${professor.matricula}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 fetchUsuarios();
-                setAlunos(alunos.filter((_, i) => i !== index));
-                setMensagem('Aluno excluido com sucesso!')
+                const updatedProfessores = professores.filter((_, i) => i !== index);
+                setProfessores(updatedProfessores);
+                setMensagem('Professor excluido com sucesso!')
                 setMensagemTipo('sucesso');
             } else {
-                setMensagem('Erro ao excluir o aluno.');
+                setMensagem('Erro ao excluir o professor.');
                 setMensagemTipo('erro');
-                console.error('Erro ao excluir o aluno:', response.statusText);
+                console.error('Erro ao excluir o professor:', response.statusText);
             }
         } catch (error) {
             console.error('Erro na requisição:', error);
@@ -191,19 +195,19 @@ const CadastroAluno: React.FC = () => {
     };
 
     // Cálculo de páginas e seleção de dados para a página atual
-    const indexOfLastAluno = currentPage * itemsPerPage;
-    const indexOfFirstAluno = indexOfLastAluno - itemsPerPage;
-    const currentAlunos = alunos.slice(indexOfFirstAluno, indexOfLastAluno);
+    const indexOfLastProfessor = currentPage * itemsPerPage;
+    const indexOfFirstProfessor = indexOfLastProfessor - itemsPerPage;
+    const currentProfessores = professores.slice(indexOfFirstProfessor, indexOfLastProfessor);
 
     // Alterar página
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
     // Calcular número de páginas
-    const totalPages = Math.ceil(alunos.length / itemsPerPage);
+    const totalPages = Math.ceil(professores.length / itemsPerPage);
 
     return (
         <div className='background'>
-            <button className='botaoAdd' onClick={handleNovoAluno}> + NOVO ALUNO</button>
+            <button className='botaoAdd' onClick={handleNovoProfessor}> + NOVO PROFESSOR</button>
 
             <table className='tabela'>
                 <thead>
@@ -211,6 +215,7 @@ const CadastroAluno: React.FC = () => {
                         <th style={{ textAlign: 'left', width: '8%' }}>Matrícula</th>
                         <th style={{ textAlign: 'left', width: '22%' }}>Nome</th>
                         <th style={{ textAlign: 'left', width: '12%' }}>Senha</th>
+                        <th style={{ textAlign: 'left', width: '10%' }}>Matéria</th>
                         <th style={{ textAlign: 'left' }}>Turma</th>
                         <th style={{ textAlign: 'left' }}>Tipo</th>
                         <th style={{ textAlign: 'left' }}>Situação</th>
@@ -218,17 +223,18 @@ const CadastroAluno: React.FC = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {currentAlunos.map((aluno, index) => (
+                    {currentProfessores.map((professor, index) => (
                         <tr key={index}>
-                            <td style={{ textAlign: 'left' }}>{aluno.matricula}</td>
-                            <td style={{ textAlign: 'left' }}>{aluno.nome}</td>
-                            <td style={{ textAlign: 'left' }}>{'*'.repeat(aluno.senha.length)}</td>
-                            <td style={{ textAlign: 'left' }}>{aluno.turma}º Ano</td>
-                            <td style={{ textAlign: 'left' }}>{aluno.tipo}</td>
-                            <td style={{ textAlign: 'left' }}>{aluno.situacao}</td>
+                            <td style={{ textAlign: 'left' }}>{professor.matricula}</td>
+                            <td style={{ textAlign: 'left' }}>{professor.nome}</td>
+                            <td style={{ textAlign: 'left' }}>{'*'.repeat(professor.senha.length)}</td>
+                            <td style={{ textAlign: 'left' }}>{professor.materia}</td>
+                            <td style={{ textAlign: 'left' }}>{professor.turma}º Ano</td>
+                            <td style={{ textAlign: 'left' }}>{professor.tipo}</td>
+                            <td style={{ textAlign: 'left' }}>{professor.situacao}</td>
                             <td style={{ textAlign: 'center' }}>
-                                <button onClick={() => handleEditarAluno(index)}>Editar</button>
-                                <button onClick={() => handleExcluirAluno(index)}>Excluir</button>
+                                <button onClick={() => handleEditarProfessor(index)}>Editar</button>
+                                <button onClick={() => handleExcluirProfessor(index)}>Excluir</button>
                             </td>
                         </tr>
                     ))}
@@ -296,7 +302,7 @@ const CadastroAluno: React.FC = () => {
                                 <div
                                     style={{
                                         position: 'absolute',
-                                        top: '48%',
+                                        top: '41%',
                                         right: '20px',
                                         transform: 'translateY(-50%)',
                                         cursor: 'pointer',
@@ -309,14 +315,32 @@ const CadastroAluno: React.FC = () => {
                         </div>
 
                         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
+                            <div style={{ width: '49.5%', display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
+                                <label htmlFor="materia">Matéria:</label>
+                                <select
+                                    id="materia"
+                                    value={materia}
+                                    onChange={(e) => setMateria(e.target.value)}
+                                >
+                                    <option value="">Selecione a Matéria</option>
+                                    <option value="Matemática">Matemática</option>
+                                    <option value="Português">Português</option>
+                                    <option value="História">História</option>
+                                    <option value="Geografia">Geografia</option>
+                                    <option value="Ciências">Ciências</option>
+                                    <option value="Inglês">Inglês</option>
+                                    <option value="Física">Física</option>
+                                    <option value="Química">Química</option>
+                                    <option value="Biologia">Biologia</option>
+                                </select>
+                            </div>
 
                             <div style={{ width: '49.5%', display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
                                 <label htmlFor="turma">Turma:</label>
                                 <select
-                                    style={{ width: '98%' }}
                                     id="turma"
                                     value={turma ?? ''}
-                                    onChange={(e) => setTurma(parseInt(e.target.value))}
+                                    onChange={(e) => setTurmas(parseInt(e.target.value))}
                                 >
                                     <option value="">Selecione a Turma</option>
                                     <option value="6">6º ano</option>
@@ -328,9 +352,12 @@ const CadastroAluno: React.FC = () => {
                                     <option value="3">3º ano</option>
                                 </select>
                             </div>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                             <div style={{ width: '49.5%', display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
                                 <label htmlFor="tipo">Tipo:</label>
-                                <input id="tipo" style={{ width: '98%' }} type="text" placeholder="Tipo" value={tipo} disabled />
+                                <input id="tipo" style={{ width: '100%' }} type="text" placeholder="Tipo" value={tipo} disabled />
                             </div>
 
                             <div style={{ width: '49.5%', display: 'flex', flexDirection: 'column', textAlign: 'left' }}>
@@ -348,7 +375,7 @@ const CadastroAluno: React.FC = () => {
                             </div>
                         </div>
 
-                        <button className='botaoSalvar' onClick={handleSalvarAluno}>Salvar</button>
+                        <button className='botaoSalvar' onClick={handleSalvarProfessor}>Salvar</button>
                         <button className='botaoCancelar' onClick={handleClosePopup}>Cancelar</button>
                     </div>
                 </div>
@@ -360,6 +387,6 @@ const CadastroAluno: React.FC = () => {
             )}
         </div>
     );
-}
+};
 
-export default CadastroAluno
+export default CadastroProfessor;
