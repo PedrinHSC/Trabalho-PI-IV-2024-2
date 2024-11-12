@@ -1,8 +1,60 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Button, CircularProgress, Snackbar, Card, CardContent, TextField, Typography, Container, Box } from '@mui/material';
+import { Button, CircularProgress, Snackbar, Card, CardContent, TextField, Typography, Container, Box, styled } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+const StyledCard = styled(Card)({
+    marginTop: 16,
+    padding: 16,
+    minWidth: '100%',
+});
+
+const ChatArea = styled(Box)({
+    maxHeight: 390,
+    overflowY: 'auto',
+    padding: 8,
+    borderRadius: 8,
+
+    // Estilização da barra de rolagem para navegadores compatíveis
+    '&::-webkit-scrollbar': {
+        width: '8px', // largura da barra
+    },
+    '&::-webkit-scrollbar-track': {
+        background: '#f1f1f1', // cor do fundo do track
+        borderRadius: '10px',
+    },
+    '&::-webkit-scrollbar-thumb': {
+        backgroundColor: '#b0bec5', // cor da "pegada" da barra
+        borderRadius: '10px',
+        border: '2px solid #f5f5f5', // borda para melhor contraste
+    },
+    '&::-webkit-scrollbar-thumb:hover': {
+        backgroundColor: '#78909c', // cor da "pegada" ao passar o mouse
+    },
+});
+
+const MessageBox = styled(Box)<{ isUser: boolean }>(({ isUser }) => ({
+    marginBottom: 8,
+    textAlign: isUser ? 'right' : 'left',
+}));
+
+const MessageContent = styled(Box)<{ isUser: boolean }>(({ isUser }) => ({
+    display: 'inline-block',
+    padding: '8px',
+    borderRadius: 8,
+    backgroundColor: isUser ? '#e0f7fa' : '#f1f1f1',
+}));
+
+const FullScreenContainer = styled(Container)({
+    width: '100%',      // Largura total da janela
+    height: '100%',     // Altura total da janela
+    display: 'flex',     // Flexbox para centralizar conteúdo, se necessário
+    alignItems: 'center', // Alinha verticalmente ao centro
+    justifyContent: 'center', // Alinha horizontalmente ao centro
+    padding: 0,           // Remove o padding padrão do Container do Material-UI
+    overflow: 'hidden',   // Evita barras de rolagem extras
+});
 
 const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
     const [userInput, setUserInput] = useState('');
@@ -75,21 +127,21 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
     };
 
     return (
-        <Container maxWidth="md">
-            <Card>
+        <FullScreenContainer>
+            <StyledCard>
                 <CardContent>
                     <Typography variant="body1" gutterBottom>
-                        Utilize o chat para tirar suas dúvidas relacioandas a matéria.
+                        Utilize o chat para tirar suas dúvidas relacionadas a matéria.
                     </Typography>
 
-                    <Box className='chat-area' sx={{ maxHeight: '360px', overflowY: 'auto', marginBottom: '10px' }}>
+                    <ChatArea>
                         {chatResponse.map((msg, index) => (
-                            <Box key={index} className={`chat-message ${msg.type}`} sx={{ marginBottom: '8px', textAlign: msg.type === 'user' ? 'right' : 'left' }}>
-                                <Box className="message-content" sx={{ display: 'inline-block', padding: '8px', borderRadius: '8px', backgroundColor: msg.type === 'user' ? '#e0f7fa' : '#f1f1f1' }} dangerouslySetInnerHTML={{ __html: msg.text }} />
-                            </Box>
+                            <MessageBox key={index} isUser={msg.type === 'user'}>
+                                <MessageContent isUser={msg.type === 'user'} dangerouslySetInnerHTML={{ __html: msg.text }} />
+                            </MessageBox>
                         ))}
                         <div ref={chatEndRef} />
-                    </Box>
+                    </ChatArea>
 
                     <TextField
                         value={userInput}
@@ -97,7 +149,7 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
                         placeholder={`Digite sua pergunta sobre ${materia}`}
                         disabled={loading}
                         multiline
-                        rows={1}
+                        rows={2}
                         variant="outlined"
                         fullWidth
                         margin="normal"
@@ -114,7 +166,7 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
                         </Button>
                     </Box>
                 </CardContent>
-            </Card>
+            </StyledCard>
 
             <ToastContainer />
             <Snackbar
@@ -123,7 +175,7 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
                 onClose={handleCloseSnackbar}
                 message={snackbarMessage}
             />
-        </Container>
+        </FullScreenContainer>
     );
 };
 

@@ -12,7 +12,7 @@ const Notas: React.FC<{ materia: string }> = ({ materia }) => {
     };
 
     return (
-        <Grid container justifyContent="center" alignItems="flex-start" style={{ minHeight: '100vh', paddingTop: '50px' }}>
+        <Grid container justifyContent="center" alignItems="flex-start" style={{ maxHeight: '100%', paddingTop: '50px' }}>
             <Grid item xs={12} sm={8} md={6}>
                 <Card elevation={3}>
                     <CardContent>
@@ -30,10 +30,10 @@ const Notas: React.FC<{ materia: string }> = ({ materia }) => {
                             margin="normal"
                         />
                         <Box display="flex" justifyContent="flex-end">
-                            <Button 
-                                onClick={handleSaveNotes} 
-                                variant="contained" 
-                                color="primary" 
+                            <Button
+                                onClick={handleSaveNotes}
+                                variant="contained"
+                                color="primary"
                                 style={{ marginTop: '10px' }}
                             >
                                 Salvar Notas
