@@ -64,7 +64,7 @@ const Reforco: React.FC<{ materia: string }> = ({ materia }) => {
     const [snackbarMessage, setSnackbarMessage] = useState('');
     const chatEndRef = useRef<HTMLDivElement>(null);
 
-    const genAI = new GoogleGenerativeAI("AIzaSyACARutO6F7B0FBmxezOldxokEpXWdUb34");
+    const genAI = new GoogleGenerativeAI("AIzaSyB4Bw4_vC6eWV23ESPYX6VHTc2vmE1qxCw");
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     const formatResponse = (response: string) => {
