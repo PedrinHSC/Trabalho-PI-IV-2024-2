@@ -8,6 +8,7 @@ import Inicio from './componentes/inicio/inicio';
 import Materias from './componentes/materias/materias';
 import Cadastro from './componentes/cadastro/cadastro';
 import logoPrefeituraVixHoriz from '../../assets/imagens/logoPrefeituraVixHoriz.png';
+import Calendario from './componentes/calendario/calendario';
 
 interface Usuario {
     nome: string;
@@ -84,7 +85,7 @@ const TelaInicial: React.FC = () => {
             case 'inicio':
                 return <Inicio />;
             case 'inicio/calendario':
-                return <div>Conteúdo da página Calendário</div>;
+                return <Calendario />;
             case 'inicio/materias':
                 return <Materias />;
             case 'inicio/contato':
