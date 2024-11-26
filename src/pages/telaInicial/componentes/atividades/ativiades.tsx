@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './Atividade.module.css';
 
 const Atividade: React.FC<{ materia: string }> = ({ materia }) => {
-    const [atividades, setAtividades] = useState([
+    const [atividades] = useState([
         { id: 1, title: 'Atividade 1', description: `Faça um resumo sobre ${materia}` },
         { id: 2, title: 'Atividade 2', description: 'Resolva os exercícios da página 10' },
         { id: 3, title: 'Atividade 3', description: 'Estude o capítulo 3 e prepare uma apresentação' },
@@ -16,7 +16,7 @@ const Atividade: React.FC<{ materia: string }> = ({ materia }) => {
         { id: 10, title: 'Atividade 10', description: 'Prepare uma aula sobre o tema' },
     ]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage] = useState(9); // Defina o número de registros por página
+    const [itemsPerPage] = useState(12); // Defina o número de registros por página
 
     useEffect(() => {
         // Future implementation: Fetch activities from a database
@@ -39,7 +39,7 @@ const Atividade: React.FC<{ materia: string }> = ({ materia }) => {
 
     return (
         <div className={styles.container}>
-            <h3 className={styles.title}>Atividades de {materia}</h3>
+            <h3 className={styles.title}>Atividades</h3>
             <p className={styles.subtitle}>Faça as atividades abaixo:</p>
             <div className={styles.cards}>
                 {currentAlunos.map(atividade => (

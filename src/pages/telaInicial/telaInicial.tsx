@@ -1,14 +1,14 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightFromBracket, faPhoneAlt, faEnvelope, faMapMarkerAlt, faClock } from '@fortawesome/free-solid-svg-icons';
+import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import './telaInicial.css';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Card, Container } from 'react-bootstrap';
 import Inicio from './componentes/inicio/inicio';
 import Materias from './componentes/materias/materias';
 import Cadastro from './componentes/cadastro/cadastro';
 import logoPrefeituraVixHoriz from '../../assets/imagens/logoPrefeituraVixHoriz.png';
 import Calendario from './componentes/calendario/calendario';
+import Contato from './componentes/contato/contato';
 
 interface Usuario {
     nome: string;
@@ -37,7 +37,6 @@ const TelaInicial: React.FC = () => {
                 { nome: 'Início', path: 'inicio' },
                 { nome: 'Calendário', path: 'inicio/calendario' },
                 { nome: 'Matérias', path: 'inicio/materias' },
-                { nome: 'Novidades', path: 'inicio/novidades' },
                 { nome: 'Contato', path: 'inicio/contato' },
                 { nome: 'Cadastro', path: 'inicio/cadastro' },
             ]);
@@ -46,7 +45,6 @@ const TelaInicial: React.FC = () => {
                 { nome: 'Início', path: 'inicio' },
                 { nome: 'Calendário', path: 'inicio/calendario' },
                 { nome: 'Matérias', path: 'inicio/materias' },
-                { nome: 'Novidades', path: 'inicio/novidades' },
                 { nome: 'Contato', path: 'inicio/contato' },
             ]);
         }
@@ -89,50 +87,7 @@ const TelaInicial: React.FC = () => {
             case 'inicio/materias':
                 return <Materias />;
             case 'inicio/contato':
-                return (
-                    <Container className="py-4">
-                        <h2 className="text-center mb-4">Contato</h2>
-                        <div className="contact-cards">
-                            <Card className="shadow-lg contact-card">
-                                <Card.Body className="text-center">
-                                    <FontAwesomeIcon icon={faPhoneAlt} size="4x" className="mb-3 text-primary" />
-                                    <Card.Title>Telefone</Card.Title>
-                                    <Card.Text>(27) 1234-5678</Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <Card className="shadow-lg contact-card">
-                                <Card.Body className="text-center">
-                                    <FontAwesomeIcon icon={faEnvelope} size="4x" className="mb-3 text-primary" />
-                                    <Card.Title>Email</Card.Title>
-                                    <Card.Text>contato@escolavix.com.br</Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <Card className="shadow-lg contact-card">
-                                <Card.Body className="text-center">
-                                    <FontAwesomeIcon icon={faMapMarkerAlt} size="4x" className="mb-3 text-primary" />
-                                    <Card.Title>Endereço</Card.Title>
-                                    <Card.Text>
-                                        Rua Alegria de Viver, 45<br />
-                                        Jardim da Educação, Vitória - ES<br />
-                                        CEP: 29000-000
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                            <Card className="shadow-lg contact-card">
-                                <Card.Body className="text-center">
-                                    <FontAwesomeIcon icon={faClock} size="4x" className="mb-3 text-primary" />
-                                    <Card.Title>Horário de Atendimento</Card.Title>
-                                    <Card.Text>
-                                        Segunda a Sexta: 08:00 às 18:00<br />
-                                        Sábado: 09:00 às 13:00
-                                    </Card.Text>
-                                </Card.Body>
-                            </Card>
-                        </div>
-                    </Container>
-                );
-            case 'inicio/novidades':
-                return <div>Conteúdo da página Novidades</div>;
+                return <Contato />
             case 'inicio/cadastro':
                 return <Cadastro />;
         }

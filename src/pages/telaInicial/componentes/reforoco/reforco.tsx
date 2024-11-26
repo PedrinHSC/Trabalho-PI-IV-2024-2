@@ -11,7 +11,7 @@ const StyledCard = styled(Card)({
 });
 
 const ChatArea = styled(Box)({
-    maxHeight: 390,
+    maxHeight: '63vh',
     overflowY: 'auto',
     padding: 8,
     borderRadius: 8,

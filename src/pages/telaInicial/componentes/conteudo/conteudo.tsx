@@ -2,19 +2,18 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
 
-const Conteudo: React.FC<{ materia: string }> = ({ materia }) => {
+const Conteudo: React.FC<{ materia: string }> = ({ }) => {
     // Dados simulados para os cards
     const conteudos = [
-        { id: 1, titulo: `Introdução a ${materia}`, descricao: `Descrição do tópico 1 de ${materia}` },
-        { id: 2, titulo: `Conceitos básicos de ${materia}`, descricao: `Descrição do tópico 2 de ${materia}` },
-        { id: 3, titulo: `Exemplos práticos de ${materia}`, descricao: `Descrição do tópico 3 de ${materia}` },
+        { id: 1, titulo: `Introdução`, descricao: `Descrição do tópico 1` },
+        { id: 2, titulo: `Conceitos básicos `, descricao: `Descrição do tópico 2` },
+        { id: 3, titulo: `Exemplos práticos `, descricao: `Descrição do tópico 3` },
     ];
 
     return (
         <div>
-            <h3>Conteúdo de {materia}</h3>
-            <p>Aqui você encontrará o conteúdo teórico da matéria {materia}.</p>
-            <div style={{ display: 'flex', gap: '16px' }}>
+            <p style={{ textAlign: 'center' }}>Aqui você encontrará o conteúdo teórico da matéria.</p>
+            <div style={{ display: 'flex', gap: '16px', textAlign: 'center', justifyContent: 'center' }}>
                 {conteudos.map(conteudo => (
                     <Card key={conteudo.id} style={{ width: '30%' }}>
                         <CardContent>

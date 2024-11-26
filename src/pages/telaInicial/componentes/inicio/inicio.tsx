@@ -31,7 +31,7 @@ const Inicio: React.FC = () => {
                     <div
                         className="scroll-container shadow-lg p-3 mx-auto"
                         style={{
-                            maxHeight: '500px',
+                            maxHeight: '73vh',
                             overflowY: 'auto',
                             borderRadius: '15px',
                             border: '1px solid #ddd',

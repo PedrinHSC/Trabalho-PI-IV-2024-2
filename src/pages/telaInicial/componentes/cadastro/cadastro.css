@@ -8,6 +8,11 @@
     cursor: pointer;
 }
 
+.cards:hover {
+    transform: scale(1.05);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+}
+
 .container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
