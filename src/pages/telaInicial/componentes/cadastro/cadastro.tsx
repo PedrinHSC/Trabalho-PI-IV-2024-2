@@ -5,14 +5,18 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import fundoAluno from '../../../../assets/imagens/fundoAluno.jpg'
 import fundoProfessor from '../../../../assets/imagens/fundoProf.jpg'
+import fundoNovidades from '../../../../assets/imagens/imagNovidades.png'
 import CadastroProfessor from './cadastroProfessor/cadastroProfessor';
+import CadastroNovidades from './cadastroNovidades/cadastroNovidades';
+
 
 const Cadastro: React.FC = () => {
   const [componenteSelecionado, setcomponenteSelecionado] = useState<React.ReactNode>(null);
 
   const cadastroArray = [
     { cadastro: 'Aluno', imagem: fundoAluno, width: '225px', height: '225px', component: <CadastroAluno /> },
-    { cadastro: 'Professor', imagem: fundoProfessor, width: '308px', height: '225px', component: <CadastroProfessor /> }, // Altere para o componente desejado
+    { cadastro: 'Professor', imagem: fundoProfessor, width: '308px', height: '225px', component: <CadastroProfessor /> },
+    { cadastro: 'Novidades', imagem: fundoNovidades, width: '308px', height: '225px', component: <CadastroNovidades /> },
   ];
 
   const handleCardClick = (component: React.ReactNode) => {

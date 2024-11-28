@@ -1,28 +1,36 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FaBullhorn } from 'react-icons/fa';
 import './inicio.css';
 
-const novidades = [
-    { title: 'Semana Cultural', detail: 'Participe da Semana Cultural de 20 a 25 de Março' },
-    { title: 'Feira de Ciências', detail: 'Inscrições abertas para a Feira de Ciências até 30 de Março' },
-    { title: 'Campanha do Agasalho', detail: 'Doe roupas para a campanha até 10 de Abril' },
-    { title: 'Novo Laboratório de Informática', detail: 'Visite o novo laboratório equipado com computadores de última geração.' },
-    { title: 'Aulas de Música', detail: 'Inscreva-se nas novas aulas de música oferecidas pela escola.' },
-    { title: 'Programa de Intercâmbio', detail: 'Participe do programa de intercâmbio estudantil no exterior.' },
-    { title: 'Palestra sobre Meio Ambiente', detail: 'Assista à palestra com especialistas em sustentabilidade no dia 22 de Abril.' },
-    { title: 'Concurso de Redação', detail: 'Mostre seu talento no concurso de redação até 1º de Maio.' },
-    { title: 'Clube de Leitura', detail: 'Junte-se ao clube de leitura para discutir obras literárias.' },
-    { title: 'Treinamento de Primeiros Socorros', detail: 'Aprenda técnicas básicas de primeiros socorros.' },
-    { title: 'Exposição de Arte', detail: 'Confira as obras dos alunos na exposição anual de arte.' },
-    { title: 'Projeto de Voluntariado', detail: 'Engaje-se em atividades voluntárias na comunidade.' },
-    { title: 'Campeonato de Xadrez', detail: 'Inscreva-se para o campeonato interno de xadrez.' },
-    { title: 'Oficina de Teatro', detail: 'Participe da oficina e desenvolva suas habilidades cênicas.' },
-    { title: 'Maratona de Matemática', detail: 'Teste seus conhecimentos na maratona que acontecerá em 15 de Maio.' }
-];
-
 const Inicio: React.FC = () => {
+    interface Novidade {
+        id: number;
+        titulo: string;
+        descricao: string;
+    }
+
+    const [novidades, setNovidades] = useState<Novidade[]>([]);
+
+    useEffect(() => {
+        fetchNovidades();
+    }, []);
+
+    const fetchNovidades = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/novidades');
+            if (response.ok) {
+                const data = await response.json();
+                setNovidades(data.novidade)
+            } else {
+                console.error('Erro ao buscar os dados:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Erro na requisição:', error);
+        }
+    };
+
     return (
         <Container fluid className="py-5 bg-light">
             <h2 className="text-center mb-4" style={{ fontWeight: 'bold' }}>Novidades</h2>
@@ -56,9 +64,9 @@ const Inicio: React.FC = () => {
                                 <Card.Body>
                                     <Card.Title className="text-secondary d-flex align-items-center justify-content-center mb-3">
                                         <FaBullhorn className="me-2" />
-                                        {novidade.title}
+                                        {novidade.titulo}
                                     </Card.Title>
-                                    <Card.Text className="text-center">{novidade.detail}</Card.Text>
+                                    <Card.Text className="text-center">{novidade.descricao}</Card.Text>
                                 </Card.Body>
                             </Card>
                         ))}

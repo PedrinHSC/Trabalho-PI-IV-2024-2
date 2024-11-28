@@ -115,7 +115,6 @@ const CadastroAluno: React.FC = () => {
 
         try {
             if (editingIndex !== null) {
-                // Método PUT para atualizar um professor existente
                 const response = await fetch(`http://localhost:5000/usuarios/${novoAluno.matricula}`, {
                     method: 'PUT',
                     headers: {
@@ -136,7 +135,6 @@ const CadastroAluno: React.FC = () => {
                     console.error('Erro ao atualizar o aluno:', response.statusText);
                 }
             } else {
-                // Método POST para adicionar um novo professor
                 const response = await fetch('http://localhost:5000/usuarios', {
                     method: 'POST',
                     headers: {
@@ -190,15 +188,12 @@ const CadastroAluno: React.FC = () => {
         }
     };
 
-    // Cálculo de páginas e seleção de dados para a página atual
     const indexOfLastAluno = currentPage * itemsPerPage;
     const indexOfFirstAluno = indexOfLastAluno - itemsPerPage;
     const currentAlunos = alunos.slice(indexOfFirstAluno, indexOfLastAluno);
 
-    // Alterar página
     const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
 
-    // Calcular número de páginas
     const totalPages = Math.ceil(alunos.length / itemsPerPage);
 
     return (
@@ -256,7 +251,7 @@ const CadastroAluno: React.FC = () => {
             {showPopup && (
                 <div className="popup">
                     <div className="popup-content">
-                        <h3>{editingIndex !== null ? 'Editar Professor' : 'Novo Professor'}</h3>
+                        <h3>{editingIndex !== null ? 'Editar Aluno' : 'Novo Aluno'}</h3>
 
                         {errorMessage && <p className="error-message">{errorMessage}</p>}
 
